@@ -61,8 +61,12 @@ class SetPayment(QDialog):
             pay.append('0')
         else:
             pay.append(self.predoplata.text())
-        query = f''' UPDATE seance SET attendance = "{','.join(pay)}"
-        WHERE cabinet={self.cabinet} AND time="{self.timer}" AND day="{self.day}"'''
+        if len(self.timer) == 4:
+            query = f''' UPDATE seance SET attendance = "{','.join(pay)}"
+            WHERE cabinet={self.cabinet} AND time="0{self.timer}" AND day="{self.day}"'''
+        else:
+            query = f''' UPDATE seance SET attendance = "{','.join(pay)}"
+                        WHERE cabinet={self.cabinet} AND time="{self.timer}" AND day="{self.day}"'''
         self.cursor.execute(query)
         paying = list(map(int, pay))
         if sum(paying) == 0:
