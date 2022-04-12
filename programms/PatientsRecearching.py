@@ -1,9 +1,9 @@
+from personCard import *
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import QFont
 from AllConstants import *
 import sqlite3
-from personCard import *
 
 
 class Patients(QWidget):

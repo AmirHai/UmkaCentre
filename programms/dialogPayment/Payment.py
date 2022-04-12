@@ -18,8 +18,12 @@ class SetPayment(QDialog):
         self.db = sqlite3.connect('../data/seances.db')
         self.cursor = self.db.cursor()
 
-        query = f''' SELECT attendance, cost, discount FROM seance 
-        WHERE cabinet={self.cabinet} AND time="{self.timer}" AND day="{self.day}" '''
+        if len(self.timer) == 4:
+            query = f''' SELECT attendance, cost, discount FROM seance 
+        WHERE cabinet={self.cabinet} AND time="0{self.timer}" AND day="{self.day}" '''
+        else:
+            query = f''' SELECT attendance, cost, discount FROM seance 
+                    WHERE cabinet={self.cabinet} AND time="{self.timer}" AND day="{self.day}" '''
         texts = self.cursor.execute(query).fetchone()
 
         self.nallmoney.setText(texts[0].split(',')[0])
