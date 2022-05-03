@@ -19,9 +19,16 @@ class CalendarDialog(QDialog):
         self.Boxbtn.clicked.connect(self.reset_data)
         self.calendar.clicked.connect(self.change)
 
+        self.data = date(*[int(i) for i in self.calendar.selectedDate().toString('yyyy MM dd').split(' ')])
+        self.changedDate.setText(self.data.strftime('%d %B %Y'))
+
     def change(self):
-        data = date(*[int(i) for i in self.calendar.selectedDate().toString('yyyy MM dd').split(' ')])
-        self.changedDate.setText(data.strftime('%d %B %Y'))
+        newdata = date(*[int(i) for i in self.calendar.selectedDate().toString('yyyy MM dd').split(' ')])
+        if self.data == newdata:
+            self.acept_data()
+        else:
+            self.data = newdata
+            self.changedDate.setText(self.data.strftime('%d %B %Y'))
 
     def acept_data(self):
         self.newdata.setText(self.changedDate.text())

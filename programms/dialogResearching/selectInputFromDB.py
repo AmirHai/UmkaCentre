@@ -49,6 +49,9 @@ class SelectInputData(QDialog):
         self.returnData.accepted.connect(self.acept_data)
         self.returnData.rejected.connect(self.reject_data)
 
+        self.currentLine = None
+        self.AllData.clicked.connect(self.newSelectedLine)
+
     def acept_data(self):
         try:
             if self.table == 'seanceType':
@@ -62,6 +65,14 @@ class SelectInputData(QDialog):
 
     def reject_data(self):
         self.close()
+
+    def newSelectedLine(self):
+        if not self.currentLine:
+            self.currentLine = self.AllData.currentItem().text()
+        elif self.currentLine == self.AllData.currentItem().text():
+            self.acept_data()
+        else:
+            self.currentLine = self.AllData.currentItem().text()
 
     def lineChanged(self):
         text = self.searchBarLedit.text()

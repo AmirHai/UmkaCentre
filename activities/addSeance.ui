@@ -323,6 +323,16 @@
     <string>Время:</string>
    </property>
   </widget>
+  <widget class="QComboBox" name="timedelta">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>270</y>
+     <width>150</width>
+     <height>30</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

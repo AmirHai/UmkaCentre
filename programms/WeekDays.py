@@ -75,55 +75,62 @@ class CalendarDays(QWidget):
 
             for i in data:
                 listWithTimes[timedelta(hours=int(i[2].split(':')[0]), minutes=int(i[2].split(':')[1]))] = (
-                    i[5], i[6], i[7], i[9], i[8])
+                    i[5], i[6], i[7], i[9], i[8], i[10])
 
+            willPassed = 0
             for i in range(25):
-                self.AllData.append([])
-                led = QLineEdit()
-                led.setFont(FONTFORWEEKS)
-                led.setReadOnly(True)
-                led.setStyleSheet(funkstyle(*COLORS['leditGrey']))
-                if timer in listWithTimes:
-                    led.setText(' '.join(self.cursor.execute(f'''SELECT surname, name FROM patients WHERE 
-                    patients_id = {listWithTimes[timer][0]} 
-                     ''').fetchone()))
-                layout.addWidget(led, i, 0)
-                led = QLineEdit()
-                led.setFont(FONTFORWEEKS)
-                led.setReadOnly(True)
-                led.setStyleSheet(funkstyle(*COLORS['leditGrey']))
-                if timer in listWithTimes:
-                    led.setText(listWithTimes[timer][1])
-                layout.addWidget(led, i, 1)
-                led = QLineEdit()
-                led.setFont(FONTFORWEEKS)
-                led.setReadOnly(True)
-                led.setStyleSheet(funkstyle(*COLORS['leditGrey']))
-                if timer.seconds >= TENHOURS:
-                    led.setText(str(timer)[:5])
-                else:
-                    led.setText(str(timer)[:4])
-                layout.addWidget(led, i, 2)
-                btn = QPushButton()
-                btn.setFont(FONTFORWEEKS)
-                btn.setStyleSheet(funkstyle(*COLORS['leditGrey']))
-                btn.setObjectName(f'btn;{j};{timer}')
-                if timer in listWithTimes:
-                    btn.setText(str(listWithTimes[timer][2] - listWithTimes[timer][3]))
-                    paying = sum(map(int, listWithTimes[timer][4].split(',')))
-                    if paying == 0:
-                        btn.setStyleSheet('''
-                        background-color:rgb(225, 0, 0) ''')
-                    elif paying < listWithTimes[timer][2] - listWithTimes[timer][3]:
-                        btn.setStyleSheet('''
-                        background-color:rgb(255, 223, 0) ''')
+                if not willPassed:
+                    if timer in listWithTimes:
+                        willPassed = listWithTimes[timer][5] - 1
+                    self.AllData.append([])
+                    led = QLineEdit()
+                    led.setFont(FONTFORWEEKS)
+                    led.setReadOnly(True)
+                    led.setStyleSheet(funkstyle(*COLORS['leditGrey']))
+                    if timer in listWithTimes:
+                        led.setText(' '.join(self.cursor.execute(f'''SELECT surname, name FROM patients WHERE 
+                        patients_id = {listWithTimes[timer][0]} 
+                         ''').fetchone()))
+                    layout.addWidget(led, i, 0)
+                    led = QLineEdit()
+                    led.setFont(FONTFORWEEKS)
+                    led.setReadOnly(True)
+                    led.setStyleSheet(funkstyle(*COLORS['leditGrey']))
+                    if timer in listWithTimes:
+                        led.setText(listWithTimes[timer][1])
+                    layout.addWidget(led, i, 1)
+                    led = QLineEdit()
+                    led.setFont(FONTFORWEEKS)
+                    led.setReadOnly(True)
+                    led.setStyleSheet(funkstyle(*COLORS['leditGrey']))
+                    if timer.seconds >= TENHOURS:
+                        led.setText(str(timer)[:5])
                     else:
-                        btn.setStyleSheet('''
-                        background-color:rgb(0, 225, 0) ''')
-                btn.clicked.connect(self.setOrViewPayment)
-                self.AllData.append(btn)
-                layout.addWidget(btn, i, 3)
-                timer += timedelta(minutes=30)
+                        led.setText(str(timer)[:4])
+                    layout.addWidget(led, i, 2)
+                    btn = QPushButton()
+                    btn.setFont(FONTFORWEEKS)
+                    btn.setStyleSheet(funkstyle(*COLORS['leditGrey']))
+                    btn.setObjectName(f'btn;{j};{timer}')
+                    if timer in listWithTimes:
+                        btn.setText(str(listWithTimes[timer][2] - listWithTimes[timer][3]))
+                        paying = sum(map(int, listWithTimes[timer][4].split(',')))
+                        if paying == 0:
+                            btn.setStyleSheet('''
+                            background-color:rgb(225, 0, 0) ''')
+                        elif paying < listWithTimes[timer][2] - listWithTimes[timer][3]:
+                            btn.setStyleSheet('''
+                            background-color:rgb(255, 223, 0) ''')
+                        else:
+                            btn.setStyleSheet('''
+                            background-color:rgb(0, 225, 0) ''')
+                    btn.clicked.connect(self.setOrViewPayment)
+                    self.AllData.append(btn)
+                    layout.addWidget(btn, i, 3)
+                    timer += timedelta(minutes=30)
+                else:
+                    willPassed -= 1
+                    timer += timedelta(minutes=30)
 
             widget = QWidget()
             widget.setLayout(layout)

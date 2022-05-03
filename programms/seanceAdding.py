@@ -17,6 +17,8 @@ class CreateSeance(QWidget):
         self.ledit_doctors.setReadOnly(True)
         self.ledit_patients.setReadOnly(True)
 
+        self.timedelta.addItems(CONST.keys())
+
         self.doc_id = 0
         self.pat_id = 0
 
@@ -58,9 +60,10 @@ class CreateSeance(QWidget):
         if self.doc_id and self.pat_id and self.ledit_seance.text() and self.cabinet.text() and self.cost.text():
             attendance = self.MoneyExamination()
             query = f''' INSERT INTO seance (seance_id, day, time, cabinet, 
-            doctor, patient, seanceType, cost, attendance, discount)
+            doctor, patient, seanceType, cost, attendance, discount, deltatime)
             VALUES ({Id}, "{date}", "{time}", {int(self.cabinet.text())}, {self.doc_id}, {self.pat_id},
-            "{self.ledit_seance.text()}", {int(self.cost.text())}, "{attendance}", {present}); '''
+            "{self.ledit_seance.text()}", {int(self.cost.text())}, "{attendance}",
+            {present}, {CONST[self.timedelta.currentText()]}); '''
             self.cursor.execute(query)
             self.db.commit()
             self.db.close()
