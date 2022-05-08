@@ -7,12 +7,17 @@ class CreateSeance(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.setGeometry(X_KORD, Y_KORD, 800, 500)
-        self.setFixedSize(800, 500)
+        self.setGeometry(X_KORD, Y_KORD, 800, 700)
+        self.setFixedSize(800, 700)
         uic.loadUi('../activities/addSeance.ui', self)
 
         self.db = sqlite3.connect('../data/seances.db')
         self.cursor = self.db.cursor()
+
+        self.curDate = self.date.selectedDate().toString('yyyy-MM-dd')
+        self.date.clicked.connect(self.calendarChanged)
+
+        self.AllDates = []
 
         self.ledit_doctors.setReadOnly(True)
         self.ledit_patients.setReadOnly(True)
@@ -52,20 +57,20 @@ class CreateSeance(QWidget):
     def addSeancePressed(self):
         Id = len(self.cursor.execute(''' SELECT * FROM seance ''').fetchall()) + 1
         time = self.time.time().toString('HH:mm')
-        date = self.date.selectedDate().toString('yyyy-MM-dd')
         if self.present.text() == '':
             present = 0
         else:
             present = int(self.present.text())
         if self.doc_id and self.pat_id and self.ledit_seance.text() and self.cabinet.text() and self.cost.text():
-            attendance = self.MoneyExamination()
-            query = f''' INSERT INTO seance (seance_id, day, time, cabinet, 
-            doctor, patient, seanceType, cost, attendance, discount, deltatime)
-            VALUES ({Id}, "{date}", "{time}", {int(self.cabinet.text())}, {self.doc_id}, {self.pat_id},
-            "{self.ledit_seance.text()}", {int(self.cost.text())}, "{attendance}",
-            {present}, {CONST[self.timedelta.currentText()]}); '''
-            self.cursor.execute(query)
-            self.db.commit()
+            for i in self.AllDates:
+                attendance = self.MoneyExamination()
+                query = f''' INSERT INTO seance (seance_id, day, time, cabinet, 
+                doctor, patient, seanceType, cost, attendance, discount, deltatime)
+                VALUES ({Id}, "{i}", "{time}", {int(self.cabinet.text())}, {self.doc_id}, {self.pat_id},
+                "{self.ledit_seance.text()}", {int(self.cost.text())}, "{attendance}",
+                {present}, {CONST[self.timedelta.currentText()]}); '''
+                self.cursor.execute(query)
+                self.db.commit()
             self.db.close()
             self.close()
         else:
@@ -91,3 +96,21 @@ class CreateSeance(QWidget):
             return f'0,0,0,{moneyInProfile}'
         elif moneyInProfile == 0:
             return f'0,0,0,0'
+
+    def calendarChanged(self):
+        if self.date.selectedDate().toString('yyyy-MM-dd') == self.curDate:
+            if self.curDate not in self.AllDates:
+                self.AllDates.append(self.curDate)
+                self.AllDates.sort()
+            else:
+                self.AllDates.remove(self.curDate)
+        else:
+            self.curDate = self.date.selectedDate().toString('yyyy-MM-dd')
+        self.selectDates.clear()
+        for i in self.AllDates:
+            a = QListWidgetItem()
+            a.setFont(FONT)
+            text = i.split('-')
+            text[1] = months[text[1]]
+            a.setText(' '.join(reversed(text)))
+            self.selectDates.addItem(a)

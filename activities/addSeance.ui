@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>500</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="font">
@@ -290,8 +290,8 @@
     <rect>
      <x>10</x>
      <y>210</y>
-     <width>541</width>
-     <height>281</height>
+     <width>540</width>
+     <height>480</height>
     </rect>
    </property>
    <property name="font">
@@ -330,6 +330,16 @@
      <y>270</y>
      <width>150</width>
      <height>30</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="selectDates">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>310</y>
+     <width>230</width>
+     <height>380</height>
     </rect>
    </property>
   </widget>
