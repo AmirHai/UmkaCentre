@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>800</height>
+    <width>950</width>
+    <height>950</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>100</x>
      <y>10</y>
-     <width>400</width>
-     <height>30</height>
+     <width>621</width>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
@@ -44,7 +44,7 @@
      <x>10</x>
      <y>10</y>
      <width>90</width>
-     <height>30</height>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
@@ -66,15 +66,15 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>240</y>
-     <width>400</width>
-     <height>30</height>
+     <y>310</y>
+     <width>600</width>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>14</pointsize>
     </font>
    </property>
    <property name="text">
@@ -85,15 +85,15 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>170</y>
-     <width>400</width>
-     <height>30</height>
+     <y>210</y>
+     <width>600</width>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>14</pointsize>
     </font>
    </property>
    <property name="text">
@@ -104,15 +104,15 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>210</y>
-     <width>300</width>
-     <height>30</height>
+     <y>260</y>
+     <width>600</width>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>14</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -125,15 +125,15 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>140</y>
-     <width>300</width>
-     <height>30</height>
+     <y>160</y>
+     <width>600</width>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>14</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -142,34 +142,11 @@
     <string>Специализация:</string>
    </property>
   </widget>
-  <widget class="QScrollArea" name="scrollArea">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>280</y>
-     <width>580</width>
-     <height>450</height>
-    </rect>
-   </property>
-   <property name="widgetResizable">
-    <bool>true</bool>
-   </property>
-   <widget class="QWidget" name="scrollAreaWidgetContents">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>578</width>
-      <height>448</height>
-     </rect>
-    </property>
-   </widget>
-  </widget>
   <widget class="QRadioButton" name="redactor_rbtn">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>740</y>
+     <x>10</x>
+     <y>890</y>
      <width>300</width>
      <height>50</height>
     </rect>
@@ -189,25 +166,19 @@
   <widget class="QPushButton" name="SaveInfoBtn">
    <property name="geometry">
     <rect>
-     <x>440</x>
-     <y>750</y>
+     <x>790</x>
+     <y>890</y>
      <width>150</width>
-     <height>40</height>
+     <height>50</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:rgb(175, 175, 175);
-border-radius: 15px;
-border-color: black;
-border-style: outset;
-border-width: 2px;
-border-radius: 15px;</string>
    </property>
    <property name="text">
     <string>Сохранить</string>
@@ -217,15 +188,15 @@ border-radius: 15px;</string>
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>50</y>
-     <width>300</width>
-     <height>30</height>
+     <y>60</y>
+     <width>600</width>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>14</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -238,15 +209,15 @@ border-radius: 15px;</string>
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>90</y>
-     <width>400</width>
-     <height>30</height>
+     <y>110</y>
+     <width>600</width>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>14</pointsize>
     </font>
    </property>
    <property name="text">

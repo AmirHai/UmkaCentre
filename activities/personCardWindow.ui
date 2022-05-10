@@ -6,26 +6,29 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>800</height>
+    <width>950</width>
+    <height>950</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QLineEdit" name="ledit_FIO">
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>10</y>
-     <width>400</width>
-     <height>30</height>
+     <y>20</y>
+     <width>521</width>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>14</pointsize>
     </font>
    </property>
    <property name="text">
@@ -41,8 +44,8 @@
   <widget class="QLineEdit" name="birthday_ledit">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>50</y>
+     <x>180</x>
+     <y>120</y>
      <width>200</width>
      <height>30</height>
     </rect>
@@ -58,9 +61,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
+     <y>20</y>
      <width>90</width>
-     <height>30</height>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
@@ -81,8 +84,8 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>50</y>
+     <x>30</x>
+     <y>120</y>
      <width>150</width>
      <height>30</height>
     </rect>
@@ -102,8 +105,8 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>90</y>
+     <x>20</x>
+     <y>170</y>
      <width>300</width>
      <height>30</height>
     </rect>
@@ -123,16 +126,16 @@
   <widget class="QLineEdit" name="ledit_parents_FIO">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>210</y>
+     <x>430</x>
+     <y>190</y>
      <width>400</width>
-     <height>30</height>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
     </font>
    </property>
    <property name="text">
@@ -142,16 +145,16 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>180</y>
-     <width>300</width>
-     <height>30</height>
+     <x>430</x>
+     <y>140</y>
+     <width>321</width>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -163,9 +166,9 @@
   <widget class="QRadioButton" name="redactor_rbtn">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>740</y>
-     <width>300</width>
+     <x>20</x>
+     <y>890</y>
+     <width>171</width>
      <height>50</height>
     </rect>
    </property>
@@ -185,15 +188,15 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>520</y>
+     <y>560</y>
      <width>300</width>
-     <height>30</height>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -206,15 +209,15 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>550</y>
+     <y>610</y>
      <width>400</width>
-     <height>30</height>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
     </font>
    </property>
    <property name="text">
@@ -224,8 +227,8 @@
   <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>590</y>
+     <x>460</x>
+     <y>570</y>
      <width>300</width>
      <height>30</height>
     </rect>
@@ -233,7 +236,7 @@
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -245,16 +248,16 @@
   <widget class="QLineEdit" name="ledit_phoneNumb">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>620</y>
+     <x>460</x>
+     <y>610</y>
      <width>400</width>
-     <height>30</height>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
     </font>
    </property>
    <property name="text">
@@ -264,25 +267,19 @@
   <widget class="QPushButton" name="SaveInfoBtn">
    <property name="geometry">
     <rect>
-     <x>440</x>
-     <y>750</y>
+     <x>790</x>
+     <y>890</y>
      <width>150</width>
-     <height>40</height>
+     <height>50</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
      <pointsize>12</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:rgb(175, 175, 175);
-border-radius: 15px;
-border-color: black;
-border-style: outset;
-border-width: 2px;
-border-radius: 15px;</string>
    </property>
    <property name="text">
     <string>Сохранить</string>
@@ -291,8 +288,8 @@ border-radius: 15px;</string>
   <widget class="QLineEdit" name="birthCertificateText1">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>120</y>
+     <x>20</x>
+     <y>200</y>
      <width>150</width>
      <height>30</height>
     </rect>
@@ -309,8 +306,8 @@ border-radius: 15px;</string>
   <widget class="QLineEdit" name="birthCertificateText2">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>120</y>
+     <x>180</x>
+     <y>200</y>
      <width>200</width>
      <height>30</height>
     </rect>
@@ -327,16 +324,16 @@ border-radius: 15px;</string>
   <widget class="QLabel" name="label_7">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>150</y>
+     <x>430</x>
+     <y>100</y>
      <width>300</width>
-     <height>30</height>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -348,16 +345,16 @@ border-radius: 15px;</string>
   <widget class="QLabel" name="label_8">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>430</x>
      <y>250</y>
-     <width>60</width>
-     <height>30</height>
+     <width>71</width>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -369,32 +366,32 @@ border-radius: 15px;</string>
   <widget class="QLineEdit" name="PasportSeria">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>500</x>
      <y>250</y>
      <width>150</width>
-     <height>30</height>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
     </font>
    </property>
   </widget>
   <widget class="QLabel" name="label_9">
    <property name="geometry">
     <rect>
-     <x>230</x>
+     <x>660</x>
      <y>250</y>
      <width>75</width>
-     <height>30</height>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -406,32 +403,32 @@ border-radius: 15px;</string>
   <widget class="QLineEdit" name="PasportNumb">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>730</x>
      <y>250</y>
      <width>150</width>
-     <height>30</height>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
     </font>
    </property>
   </widget>
   <widget class="QLabel" name="label_10">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>20</x>
      <y>290</y>
      <width>75</width>
-     <height>30</height>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -443,8 +440,8 @@ border-radius: 15px;</string>
   <widget class="QTextEdit" name="whereGot">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>320</y>
+     <x>20</x>
+     <y>330</y>
      <width>580</width>
      <height>100</height>
     </rect>
@@ -452,7 +449,7 @@ border-radius: 15px;</string>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -462,15 +459,15 @@ border-radius: 15px;</string>
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>430</y>
+     <y>520</y>
      <width>150</width>
-     <height>30</height>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -483,31 +480,31 @@ border-radius: 15px;</string>
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>430</y>
+     <y>520</y>
      <width>200</width>
-     <height>30</height>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
     </font>
    </property>
   </widget>
   <widget class="QLineEdit" name="sectionPoz">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>480</y>
+     <x>220</x>
+     <y>460</y>
      <width>150</width>
-     <height>30</height>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
     </font>
    </property>
   </widget>
@@ -515,9 +512,30 @@ border-radius: 15px;</string>
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>480</y>
+     <y>460</y>
      <width>200</width>
-     <height>30</height>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>13</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>код подразделения:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_seances">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>890</y>
+     <width>400</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="font">
@@ -529,49 +547,22 @@ border-radius: 15px;</string>
     </font>
    </property>
    <property name="text">
-    <string>код подразделения</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btn_seances">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>670</y>
-     <width>400</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Times New Roman</family>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:rgb(175, 175, 175);
-border-radius: 15px;
-border-color: black;
-border-style: outset;
-border-width: 2px;
-border-radius: 15px;</string>
-   </property>
-   <property name="text">
     <string>прошлые посещения</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_13">
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>50</y>
-     <width>150</width>
-     <height>30</height>
+     <x>20</x>
+     <y>700</y>
+     <width>201</width>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -583,15 +574,15 @@ border-radius: 15px;</string>
   <widget class="QLineEdit" name="moneyOnProfile">
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>80</y>
-     <width>150</width>
-     <height>30</height>
+     <x>20</x>
+     <y>740</y>
+     <width>201</width>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>12</pointsize>
+     <pointsize>13</pointsize>
     </font>
    </property>
   </widget>

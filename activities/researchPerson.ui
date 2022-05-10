@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
+    <width>950</width>
     <height>800</height>
    </rect>
   </property>
@@ -16,9 +16,9 @@
   <widget class="QLineEdit" name="searchBarLedit">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>90</x>
      <y>10</y>
-     <width>400</width>
+     <width>591</width>
      <height>30</height>
     </rect>
    </property>
@@ -26,9 +26,9 @@
   <widget class="QPushButton" name="addbtn">
    <property name="geometry">
     <rect>
-     <x>420</x>
+     <x>690</x>
      <y>10</y>
-     <width>170</width>
+     <width>250</width>
      <height>30</height>
     </rect>
    </property>
@@ -41,15 +41,30 @@
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color:rgb(175, 175, 175);
-border-radius: 15px;
-border-color: black;
-border-style: outset;
-border-width: 2px;
-border-radius: 15px;</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>Добавить</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>80</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>13</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Поиск:</string>
    </property>
   </widget>
  </widget>

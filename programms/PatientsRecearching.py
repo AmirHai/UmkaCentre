@@ -1,18 +1,16 @@
 from personCard import *
-from PyQt5.QtWidgets import *
 from PyQt5 import uic
-from PyQt5.QtGui import QFont
 from AllConstants import *
 import sqlite3
 
 
 class Patients(QWidget):
-    def __init__(self, table, returning=False):
+    def __init__(self, table, grid=None, returning=False):
         super().__init__()
 
         uic.loadUi('../activities/researchPerson.ui', self)
         self.setGeometry(X_KORD, Y_KORD, WINDOWWIDTH, WINDOWHEIGHT)
-        self.setFixedSize(600, 800)
+        self.setFixedSize(950, 950)
         if table == 'patients':
             self.setWindowTitle(f'{CENTERNAME}: пациенты')
         elif table == 'doctors':
@@ -21,13 +19,15 @@ class Patients(QWidget):
         self.table = table
         self.retur = returning
         self.allButtons = []
+        self.GridLayout = grid
 
         self.db = sqlite3.connect('../data/seances.db')
         self.cursor = self.db.cursor()
 
         self.scrollArea = QScrollArea(self)
-        self.scrollArea.resize(580, 740)
+        self.scrollArea.resize(940, 900)
         self.scrollArea.move(10, 50)
+        self.scrollArea.setWidgetResizable(True)
         self.scrollArea.show()
 
         self.files = []
@@ -43,12 +43,10 @@ class Patients(QWidget):
 
     def takeAllData(self, names):
         layout = QVBoxLayout()
-        n = '-' * 78
-        lbl = QLabel(n)
-        lbl.setFont(FONT)
-        lbl.setStyleSheet("text-align: left")
-        layout.addWidget(lbl)
         self.allButtons.clear()
+
+        if len(names) < 18:
+            self.scrollArea.resize(940, 50 * len(names))
 
         for i in names:
             if self.table == 'patients' or self.table == 'doctors':
@@ -107,14 +105,16 @@ class Patients(QWidget):
                  WHERE "{send[0]}" = surname AND "{send[1]}" = name AND "{send[2]}" = patronymic '''
             id = self.cursor.execute(query).fetchall()
             self.card = DoctorsCard(id[0])
-        self.card.show()
+        if not self.GridLayout:
+            self.card.show()
+        else:
+            self.GridLayout.addWidget(self.card, 0, 1)
 
     def addPerson(self):
         if self.table == 'patients':
             name, ok = QInputDialog.getText(self, 'добавление пациента', 'введите ФИО')
         else:
             name, ok = QInputDialog.getText(self, 'добавление доктора', 'введите ФИО')
-        print(name)
         if len(name.split(' ')) != 3:
             QMessageBox.critical(self, " Ошибка! ", " неправильный ввод данных!!! ", QMessageBox.Ok)
         else:

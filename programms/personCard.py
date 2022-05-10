@@ -7,8 +7,8 @@ import sqlite3
 class PersonCard(QWidget):
     def __init__(self, p_id):
         super().__init__()
-        self.setGeometry(X_KORD, Y_KORD, 600, 800)
-        self.setFixedSize(600, 800)
+        self.setGeometry(X_KORD, Y_KORD, 950, 1000)
+        self.setFixedSize(950, 950)
         uic.loadUi('../activities/personCardWindow.ui', self)
         self.setWindowTitle(f'карточка пациента')
         self.db = sqlite3.connect('../data/seances.db')
@@ -100,7 +100,7 @@ class DoctorsCard(QWidget):
     def __init__(self, d_id):
         super().__init__()
         self.setGeometry(X_KORD, Y_KORD, 600, 800)
-        self.setFixedSize(600, 800)
+        self.setFixedSize(950, 950)
         uic.loadUi('../activities/doctorCardWindow.ui', self)
         self.setWindowTitle(f'карточка доктора')
         self.Activated = False
@@ -109,11 +109,6 @@ class DoctorsCard(QWidget):
 
         self.database = sqlite3.connect('../data/seances.db')
         self.cursor = self.database.cursor()
-
-        self.scrollArea = QScrollArea(self)
-        self.scrollArea.resize(580, 450)
-        self.scrollArea.move(10, 280)
-        self.scrollArea.show()
 
         self.RbtnClicked()
         self.downloadAllInfo()
@@ -142,31 +137,6 @@ class DoctorsCard(QWidget):
             self.ledit_lastWork.setText(info[2])
             self.ledit_phoneNumb.setText(info[3])
 
-            query = f''' SELECT * FROM seance WHERE doctor = {self.doctors_ID} '''
-            self.allLedits = []
-
-            layout = QVBoxLayout()
-
-            n = '-' * 78
-            lbl = QLabel(n)
-            lbl.setFont(FONT)
-            lbl.setStyleSheet("text-align: left")
-            layout.addWidget(lbl)
-
-            allseances = self.cursor.execute(query).fetchall()
-            allseances.sort(key=lambda x: (x[1], x[2]))
-
-            for i in allseances:
-                patientName = self.cursor.execute(f''' SELECT surname, name, patronymic FROM doctors
-                 WHERE doctors_id = {i[5]} ''').fetchall()
-                n = f'дата: {i[1]}, время: {i[2]}, кабинет: {i[3]}, ребёнок: {" ".join(patientName[0])}'
-                self.allLedits.append(QLineEdit(n))
-                self.allLedits[-1].setFont(FONT)
-                self.allLedits[-1].setStyleSheet("text-align: left")
-                self.allLedits[-1].setReadOnly(self.Activated)
-            widget = QWidget()
-            widget.setLayout(layout)
-            self.scrollArea.setWidget(widget)
         except IndexError:
             # тк в файле прост нет информации
             pass

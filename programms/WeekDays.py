@@ -51,7 +51,7 @@ class CalendarDays(QWidget):
             self.AllData.clear()
 
             self.Allscrolls.append(QScrollArea(self.allframes))
-            self.Allscrolls[-1].resize(480, 880)
+            self.Allscrolls[-1].resize(480, 850)
             self.Allscrolls[-1].move(480 * j, 40)
             self.Allscrolls[-1].show()
             self.Allscrolls[-1].setStyleSheet(funkstyle(*COLORS['scrollGrey']))
