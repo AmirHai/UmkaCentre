@@ -55,18 +55,20 @@ class CreateSeance(QWidget):
             data.exec_()
 
     def addSeancePressed(self):
-        Id = len(self.cursor.execute(''' SELECT * FROM seance ''').fetchall()) + 1
+        Id = self.cursor.execute(''' SELECT seance_id FROM seance ''').fetchall()
+        Id.sort()
+        Id = Id[-1][0] + 1
         time = self.time.time().toString('HH:mm')
         if self.present.text() == '':
             present = 0
         else:
             present = int(self.present.text())
         if self.doc_id and self.pat_id and self.ledit_seance.text() and self.cabinet.text() and self.cost.text():
-            for i in self.AllDates:
+            for obj, i in enumerate(self.AllDates):
                 attendance = self.MoneyExamination()
                 query = f''' INSERT INTO seance (seance_id, day, time, cabinet, 
                 doctor, patient, seanceType, cost, attendance, discount, deltatime)
-                VALUES ({Id}, "{i}", "{time}", {int(self.cabinet.text())}, {self.doc_id}, {self.pat_id},
+                VALUES ({Id + obj}, "{i}", "{time}", {int(self.cabinet.text())}, {self.doc_id}, {self.pat_id},
                 "{self.ledit_seance.text()}", {int(self.cost.text())}, "{attendance}",
                 {present}, {CONST[self.timedelta.currentText()]}); '''
                 self.cursor.execute(query)

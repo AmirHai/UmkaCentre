@@ -99,7 +99,7 @@ class PersonCard(QWidget):
 class DoctorsCard(QWidget):
     def __init__(self, d_id):
         super().__init__()
-        self.setGeometry(X_KORD, Y_KORD, 600, 800)
+        self.setGeometry(X_KORD, Y_KORD, 950, 950)
         self.setFixedSize(950, 950)
         uic.loadUi('../activities/doctorCardWindow.ui', self)
         self.setWindowTitle(f'карточка доктора')
