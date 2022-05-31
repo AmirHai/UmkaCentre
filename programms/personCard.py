@@ -47,6 +47,9 @@ class PersonCard(QWidget):
             self.file = open(f'../data/patients/ID{self.patients_ID[0]}.txt', 'r', encoding='utf-8')
         info = self.file.readlines()
         # ФИО, дата рождения, ФИО Родителей, адрес, номер телефона, свидетельство о рождении, свидетельства
+        query = f''' SELECT money FROM patients
+                                         WHERE patients_id={self.patients_ID[0]} '''
+        self.moneyOnProfile.setText(str(self.cursor.execute(query).fetchone()[0]))
         try:
             self.ledit_FIO.setText(info[0])
             self.birthday_ledit.setText(info[1])
@@ -60,10 +63,6 @@ class PersonCard(QWidget):
             self.gettingData.setText(info[9])
             self.sectionPoz.setText(info[10])
             self.whereGot.setText('\n'.join(info[11::]))
-            query = f''' SELECT money FROM patients
-                                 WHERE patients_id={self.patients_ID[0]} '''
-            print(self.patients_ID)
-            self.moneyOnProfile.setText(str(self.cursor.execute(query).fetchone()[0]))
         except IndexError:
             # тк в файле прост нет информации
             pass

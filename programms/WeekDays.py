@@ -1,5 +1,4 @@
 from dialogCalendary import CalendarDialogWidget
-from dialogPayment import Payment
 from PyQt5 import uic
 from AllConstants import *
 from datetime import *
@@ -139,10 +138,12 @@ class CalendarDays(QWidget):
     def setOrViewPayment(self):
         info = self.sender().objectName().split(';')
         info.pop(0)
+        info[0] = str(int(info[0]) + 1)
         if len(info[1]) == 8:
             info[1] = info[1][:5]
         else:
-            info[1] = info[1][:4]
-        seePay = Payment.SetPayment(int(info[0]) + 1, info[1], self.date, self.sender())
-        seePay.show()
-        seePay.exec_()
+            info[1] = '0' + info[1][:4]
+        info.append(str(self.date))
+        info.append(self.sender())
+        self.changeSeance = CreateSeance(True, info)
+        self.changeSeance.show()
