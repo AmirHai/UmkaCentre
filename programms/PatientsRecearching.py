@@ -47,6 +47,8 @@ class Patients(QWidget):
 
         if len(names) < 18:
             self.scrollArea.resize(940, 50 * len(names))
+        else:
+            self.scrollArea.resize(940, 900)
 
         for i in names:
             if self.table == 'patients' or self.table == 'doctors':
