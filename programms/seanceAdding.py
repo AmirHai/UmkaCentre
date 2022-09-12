@@ -85,6 +85,7 @@ class CreateSeance(QWidget):
                                   [Id + obj, str(i), str(time), int(self.cabinet.text()), int(self.doc_id),
                                    int(self.pat_id), str(self.ledit_seance.text()), int(self.cost.text()),
                                    str(attendance), int(present), CONST[self.timedelta.currentText()]])
+                self.resetInfoInWeek()
                 self.close()
             else:
                 QMessageBox.critical(self, "Ошибка", "Данные введены неправильно", QMessageBox.Ok)

@@ -26,7 +26,7 @@ class CalendarDays(QWidget):
         self.download_day()
 
     def createSeance(self):
-        self.newSeance = CreateSeance()
+        self.newSeance = CreateSeance(self.download_day)
         self.newSeance.show()
 
     def set_new_day(self):
@@ -137,5 +137,5 @@ class CalendarDays(QWidget):
             info[1] = '0' + info[1][:4]
         info.append(str(self.date))
         info.append(self.sender())
-        self.changeSeance = CreateSeance(True, info)
+        self.changeSeance = CreateSeance(self.download_day, True, info)
         self.changeSeance.show()
