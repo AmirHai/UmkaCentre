@@ -1,6 +1,7 @@
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
 import sqlite3
+from programms.AllConstants import *
 from PyQt5.QtGui import QFont
 
 FONT = QFont()
@@ -26,10 +27,6 @@ class SelectInputData(QDialog):
         uic.loadUi('../programms/dialogResearching/diologWindow.ui', self)
 
         self.setWindowTitle('Диалоговое окно поиска')
-
-        self.db = sqlite3.connect('../data/seances.db')
-        self.cursor = self.db.cursor()
-
         self.ledit = ledit
 
         self.table = table
@@ -37,12 +34,10 @@ class SelectInputData(QDialog):
         self.searchBarLedit.textChanged.connect(self.lineChanged)
 
         if table == 'seanceType':
-            query = f''' SELECT DISTINCT seanceType FROM seance '''
-            names = self.cursor.execute(query).fetchall()
+            names = getInfoFromDB('DISTINCT seanceType', 'seance')
             names.sort()
         else:
-            query = f''' SELECT * FROM {table} '''
-            names = self.cursor.execute(query).fetchall()
+            names = getInfoFromDB('*', table)
             names.sort(key=lambda x: (x[1], x[2], x[3], x[0]))
         add_data_into_list(self.AllData, names)
 
@@ -78,12 +73,10 @@ class SelectInputData(QDialog):
         text = self.searchBarLedit.text()
         if text.replace(' ', '') == '':
             if self.table == 'Patients' or self.table == 'Doctors':
-                query = f''' SELECT * FROM "{self.table}" '''
-                names = self.cursor.execute(query).fetchall()
+                names = getInfoFromDB('*', '"' + self.table + '"')
                 names.sort(key=lambda x: (x[1], x[2], x[3], x[0]))
             else:
-                query = f''' SELECT DISTINCT seanceType FROM seance '''
-                names = self.cursor.execute(query).fetchall()
+                names = getInfoFromDB('DISTINCT seanceType', 'seance')
                 names.sort()
             add_data_into_list(self.AllData, names)
         else:
@@ -91,15 +84,14 @@ class SelectInputData(QDialog):
                 surname = text.split(' ')
                 names = self.getName(surname[0])
             else:
-                query = f''' SELECT DISTINCT seanceType FROM seance WHERE seanceType LIKE "%{text}%" '''
-                names = self.cursor.execute(query).fetchall()
+                names = getInfoFromDB('DISTINCT seanceType', 'seance', {'seanceType': [' LIKE ', '"%', text, '%"']})
                 names.sort()
             add_data_into_list(self.AllData, names)
 
     def getName(self, surn):
-        query = f''' SELECT * FROM "{self.table}" WHERE 
-        surname LIKE "%{surn.capitalize()}%" OR name LIKE "%{surn.capitalize()}%"
-         OR patronymic LIKE "%{surn.capitalize()}%" '''
-        names = self.cursor.execute(query).fetchall()
+        names = getInfoFromDB('*', '"' + self.table + '"', {'surname': [' LIKE ', '"%', surn.capitalize(), "%"],
+                                                            'name': [' LIKE ', '"%', surn.capitalize(), "%"],
+                                                            'patronymic': [' LIKE ', '"%', surn.capitalize(), "%"]},
+                              'all', 'OR')
         names.sort(key=lambda x: (x[1], x[2], x[3], x[0]))
         return names

@@ -21,9 +21,6 @@ class Patients(QWidget):
         self.allButtons = []
         self.GridLayout = grid
 
-        self.db = sqlite3.connect('../data/seances.db')
-        self.cursor = self.db.cursor()
-
         self.scrollArea = QScrollArea(self)
         self.scrollArea.resize(940, 900)
         self.scrollArea.move(10, 50)
@@ -33,9 +30,7 @@ class Patients(QWidget):
         self.files = []
 
         self.searchBarLedit.textChanged.connect(self.lineChanged)
-
-        query = f''' SELECT * FROM "{self.table}" '''
-        names = self.cursor.execute(query).fetchall()
+        names = getInfoFromDB('*', '"' + self.table + '"')
         names.sort(key=lambda x: (x[1], x[2], x[3], x[0]))
 
         self.takeAllData(names)
@@ -69,12 +64,10 @@ class Patients(QWidget):
         text = self.searchBarLedit.text()
         if text.replace(' ', '') == '':
             if self.table == 'patients' or self.table == 'doctors':
-                query = f''' SELECT * FROM "{self.table}" '''
-                names = self.cursor.execute(query).fetchall()
+                names = getInfoFromDB('*', '"' + self.table + '"')
                 names.sort(key=lambda x: (x[1], x[2], x[3], x[0]))
             else:
-                query = f''' SELECT DISTINCT seanceType FROM seanse '''
-                names = self.cursor.execute(query).fetchall()
+                names = getInfoFromDB('DISTINCT seanceType', 'seance')
                 names.sort()
             self.takeAllData(names)
         else:
@@ -82,30 +75,29 @@ class Patients(QWidget):
                 surname = text.split(' ')
                 names = self.getName(surname[0])
             else:
-                query = f''' SELECT DISTINCT seanceType FROM seanse WHERE seanceType LIKE "%{text}%" '''
-                names = self.cursor.execute(query).fetchall()
+                names = getInfoFromDB('DISTINCT seanceType', 'seance', {'seanceType': [' LIKE ', '"%', text, '%"']})
                 names.sort()
             self.takeAllData(names)
 
     def getName(self, surn):
-        query = f''' SELECT * FROM "{self.table}" WHERE 
-        surname LIKE "%{surn.capitalize()}%" OR name LIKE "%{surn.capitalize()}%"
-         OR patronymic LIKE "%{surn.capitalize()}%" '''
-        names = self.cursor.execute(query).fetchall()
+        names = getInfoFromDB('*', f"{self.table}", {'surname': [' LIKE ', '"%', surn.capitalize(), '%"'],
+                                                     'name': [' LIKE ', '"%', surn.capitalize(), '%"'],
+                                                     'patronymic': [' LIKE ', '"%', surn.capitalize(), '%"']},
+                              'all', 'OR')
         names.sort(key=lambda x: (x[1], x[2], x[3], x[0]))
         return names
 
     def btnClicked(self):
         send = self.sender().text().split(' ')
         if self.table == 'patients':
-            query = f''' SELECT patients_id FROM patients
-                WHERE "{send[0]}" = surname AND "{send[1]}" = name AND "{send[2]}" = patronymic '''
-            id = self.cursor.execute(query).fetchall()
+            id = getInfoFromDB('patients_id', 'patients', {'surname': ['=', '"', send[0], '"'],
+                                                           'name': ['=', '"', send[1], '"'],
+                                                           'patronymic': ['=', '"', send[2], '"']})
             self.card = PersonCard(id[0])
         else:
-            query = f''' SELECT doctors_id FROM doctors
-                 WHERE "{send[0]}" = surname AND "{send[1]}" = name AND "{send[2]}" = patronymic '''
-            id = self.cursor.execute(query).fetchall()
+            id = getInfoFromDB('doctors_id', 'doctors', {'surname': ['=', '"', send[0], '"'],
+                                                         'name': ['=', '"', send[1], '"'],
+                                                         'patronymic': ['=', '"', send[2], '"']})
             self.card = DoctorsCard(id[0])
         if not self.GridLayout:
             self.card.show()
@@ -122,28 +114,24 @@ class Patients(QWidget):
         else:
             names = name.split(' ')
             if self.table == 'patients':
-                neededID = len(self.cursor.execute(''' SELECT * FROM patients ''').fetchall()) + 1
-                query = f""" INSERT INTO patients 
-                    VALUES ({neededID}, '{names[0].capitalize()}', '{names[1].capitalize()}',
-                    '{names[2].capitalize()}', 0); """
-                self.cursor.execute(query)
-                self.db.commit()
+                neededID = len(getInfoFromDB('*', 'patients')) + 1
+                addInfoFromDB('patients', ['patients_id', 'surname', 'name', 'patronymic', 'money'],
+                              [neededID, f'{names[0].capitalize()}', f'{names[1].capitalize()}',
+                               f'{names[2].capitalize()}', 0])
+
                 file = open(f'../data/patients/ID{neededID}.txt', 'w+', encoding='utf-8')
                 file.write(' '.join([i.capitalize() for i in names]))
                 file.close()
             else:
-                neededID = len(self.cursor.execute(''' SELECT * FROM doctors ''').fetchall()) + 1
-                query = f""" INSERT INTO doctors 
-                VALUES ({neededID}, '{names[0].capitalize()}', '{names[1].capitalize()}',
-                 '{names[2].capitalize()}'); """
-                self.cursor.execute(query)
-                self.db.commit()
+                neededID = len(getInfoFromDB('*', 'doctors')) + 1
+                addInfoFromDB('doctors', ['doctors_id', 'surname', 'name', 'patronymic'],
+                              [neededID, f'{names[0].capitalize()}', f'{names[1].capitalize()}',
+                               f'{names[2].capitalize()}'])
                 file = open(f'../data/doctors/ID{neededID}.txt', 'w+', encoding='utf-8')
                 file.write(' '.join([i.capitalize() for i in names]))
                 file.close()
 
-        query = f''' SELECT * FROM "{self.table}" '''
-        n = self.cursor.execute(query).fetchall()
+        n = getInfoFromDB('*', f"{self.table}")
 
         n.sort(key=lambda x: (x[1], x[2], x[3], x[0]))
         self.takeAllData(n)

@@ -1,5 +1,6 @@
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
+from programms.AllConstants import *
 import sqlite3
 
 
@@ -15,16 +16,14 @@ class SetPayment(QDialog):
         self.day = date
         self.btn = button
 
-        self.db = sqlite3.connect('../data/seances.db')
-        self.cursor = self.db.cursor()
-
         if len(self.timer) == 4:
-            query = f''' SELECT attendance, cost, discount FROM seance 
-        WHERE cabinet={self.cabinet} AND time="0{self.timer}" AND day="{self.day}" '''
+            texts = getInfoFromDB('attendance, cost, discount', 'seance', {'cabinet': ['=', self.cabinet],
+                                                                           'time': ['=', '"0', self.timer, '"'],
+                                                                           'day': ['=', '"', self.day, '"']}, 'one')
         else:
-            query = f''' SELECT attendance, cost, discount FROM seance 
-                    WHERE cabinet={self.cabinet} AND time="{self.timer}" AND day="{self.day}" '''
-        texts = self.cursor.execute(query).fetchone()
+            texts = getInfoFromDB('attendance, cost, discount', 'seance', {'cabinet': ['=', self.cabinet],
+                                                                           'time': ['=', '"', self.timer, '"'],
+                                                                           'day': ['=', '"', self.day, '"']}, 'one')
 
         self.nallmoney.setText(texts[0].split(',')[0])
         self.cartmoney.setText(texts[0].split(',')[1])
@@ -61,13 +60,15 @@ class SetPayment(QDialog):
             pay.append('0')
         else:
             pay.append(self.predoplata.text())
+
         if len(self.timer) == 4:
-            query = f''' UPDATE seance SET attendance = "{','.join(pay)}"
-            WHERE cabinet={self.cabinet} AND time="0{self.timer}" AND day="{self.day}"'''
+            updateInfoFromDB('seance', ['attendance'], [','.join(pay)], {'cabinet': ['=', self.cabinet],
+                                                                         'time': ['=', '"0', self.timer, '"'],
+                                                                         'day': ['=', '"', self.day, '"']})
         else:
-            query = f''' UPDATE seance SET attendance = "{','.join(pay)}"
-                        WHERE cabinet={self.cabinet} AND time="{self.timer}" AND day="{self.day}"'''
-        self.cursor.execute(query)
+            updateInfoFromDB('seance', ['attendance'], [','.join(pay)], {'cabinet': ['=', self.cabinet],
+                                                                         'time': ['=', '"', self.timer, '"'],
+                                                                         'day': ['=', '"', self.day, '"']})
         paying = list(map(int, pay))
         if sum(paying) == 0:
             self.btn.setStyleSheet('''
@@ -78,8 +79,6 @@ class SetPayment(QDialog):
         else:
             self.btn.setStyleSheet('''
              background-color:rgb(0, 225, 0) ''')
-        self.db.commit()
-        self.db.close()
         self.close()
 
     def reject_data(self):

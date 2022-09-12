@@ -25,10 +25,7 @@ class LastSeances(QWidget):
         self.listwithseances.resize(1180, 740)
         self.listwithseances.move(10, 50)
 
-        self.db = sqlite3.connect('../data/seances.db')
-        self.cursor = self.db.cursor()
-        query = f''' SELECT DISTINCT seanceType FROM seance WHERE patient = {self.PersonsID} '''
-        info = self.cursor.execute(query).fetchall()
+        info = getInfoFromDB('DISTINCT seanceType', 'seance', {'patient': ['=', self.PersonsID]})
         self.combo.addItem('Все')
         for i in info:
             self.combo.addItem(i[0])
@@ -38,14 +35,13 @@ class LastSeances(QWidget):
 
     def DownloadInfo(self, text):
         if text == 'Все':
-            query = f''' SELECT day, time, cabinet, doctor, seanceType, cost
-            FROM seance WHERE patient = {self.PersonsID} '''
+            alldata = getInfoFromDB('day, time, cabinet, doctor, seanceType, cost', 'seance',
+                                    {'patient': ['=', self.PersonsID]})
         else:
-            query = f''' SELECT day, time, cabinet, doctor, seanceType, cost
-                        FROM seance WHERE patient = {self.PersonsID}
-                         AND seanceType = "{text}" '''
+            alldata = getInfoFromDB('day, time, cabinet, doctor, seanceType, cost', 'seance',
+                                    {'patient': ['=', self.PersonsID],
+                                     'seanceType': ['=', '"', text, '"']})
         self.listwithseances.clear()
-        alldata = self.cursor.execute(query).fetchall()
         alldata.sort()
         a = QListWidgetItem()
         a.setFont(FONT)
@@ -62,9 +58,8 @@ class LastSeances(QWidget):
             line += '{:16}\t'.format(' '.join(reversed(day)))
             line += '{}\t'.format(i[1])
             line += '{}\t\t'.format(i[2])
-            line += '{:25}\t'.format(' '.join(self.cursor.execute(f''' SELECT surname, name
-             FROM doctors WHERE doctors_id = {i[3]}
-             ''').fetchone()))
+            line += '{:25}\t'.format(' '.join(
+                getInfoFromDB('surname, name', 'doctors', {'doctors_id': ['=', i[3]]}, 'one')))
             line += '{}\t\t'.format(i[5])
             line += '{}'.format(i[4])
             a.setText(line)

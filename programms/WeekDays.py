@@ -16,9 +16,6 @@ class CalendarDays(QWidget):
 
         self.date = date.today()
 
-        self.db = sqlite3.connect('../data/seances.db')
-        self.cursor = self.db.cursor()
-
         self.AllData = []
         self.Allscrolls = []
 
@@ -53,12 +50,10 @@ class CalendarDays(QWidget):
             self.Allscrolls[-1].resize(480, 850)
             self.Allscrolls[-1].move(480 * j, 40)
             self.Allscrolls[-1].show()
-            self.Allscrolls[-1].setStyleSheet(funkstyle(*COLORS['scrollGrey']))
+            self.Allscrolls[-1].setStyleSheet(RGB(*COLORS['scrollGrey']))
             self.Allscrolls[-1].setWidgetResizable(True)
 
-            query = f""" SELECT * FROM seance WHERE day='{self.date}'
-        AND cabinet={j + 1} """
-            data = self.cursor.execute(query).fetchall()
+            data = getInfoFromDB('*', 'seance', {'day': ['=', '"', self.date, '"'], 'cabinet': ['=', j + 1]})
 
             layout = QGridLayout()
             layout.setColumnMinimumWidth(0, 200)
@@ -85,23 +80,23 @@ class CalendarDays(QWidget):
                     led = QLineEdit()
                     led.setFont(FONTFORWEEKS)
                     led.setReadOnly(True)
-                    led.setStyleSheet(funkstyle(*COLORS['leditGrey']))
+                    led.setStyleSheet(RGB(*COLORS['leditGrey']))
                     if timer in listWithTimes:
-                        led.setText(' '.join(self.cursor.execute(f'''SELECT surname, name FROM patients WHERE 
-                        patients_id = {listWithTimes[timer][0]} 
-                         ''').fetchone()))
+                        led.setText(' '.join(
+                            getInfoFromDB('surname, name', 'patients', {'patients_id': ['=', listWithTimes[timer][0]]},
+                                          'one')))
                     layout.addWidget(led, i, 0)
                     led = QLineEdit()
                     led.setFont(FONTFORWEEKS)
                     led.setReadOnly(True)
-                    led.setStyleSheet(funkstyle(*COLORS['leditGrey']))
+                    led.setStyleSheet(RGB(*COLORS['leditGrey']))
                     if timer in listWithTimes:
                         led.setText(listWithTimes[timer][1])
                     layout.addWidget(led, i, 1)
                     led = QLineEdit()
                     led.setFont(FONTFORWEEKS)
                     led.setReadOnly(True)
-                    led.setStyleSheet(funkstyle(*COLORS['leditGrey']))
+                    led.setStyleSheet(RGB(*COLORS['leditGrey']))
                     if timer.seconds >= TENHOURS:
                         led.setText(str(timer)[:5])
                     else:
@@ -109,20 +104,17 @@ class CalendarDays(QWidget):
                     layout.addWidget(led, i, 2)
                     btn = QPushButton()
                     btn.setFont(FONTFORWEEKS)
-                    btn.setStyleSheet(funkstyle(*COLORS['leditGrey']))
+                    btn.setStyleSheet(RGB(*COLORS['leditGrey']))
                     btn.setObjectName(f'btn;{j};{timer}')
                     if timer in listWithTimes:
                         btn.setText(str(listWithTimes[timer][2] - listWithTimes[timer][3]))
                         paying = sum(map(int, listWithTimes[timer][4].split(',')))
                         if paying == 0:
-                            btn.setStyleSheet('''
-                            background-color:rgb(225, 0, 0) ''')
+                            btn.setStyleSheet(RGB(*COLORS['redbtn']))
                         elif paying < listWithTimes[timer][2] - listWithTimes[timer][3]:
-                            btn.setStyleSheet('''
-                            background-color:rgb(255, 223, 0) ''')
+                            btn.setStyleSheet(RGB(*COLORS['yellowbtn']))
                         else:
-                            btn.setStyleSheet('''
-                            background-color:rgb(0, 225, 0) ''')
+                            btn.setStyleSheet(RGB(*COLORS['greenbtn']))
                     btn.clicked.connect(self.setOrViewPayment)
                     self.AllData.append(btn)
                     layout.addWidget(btn, i, 3)

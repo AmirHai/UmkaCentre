@@ -59,14 +59,90 @@ CONST = {
     'Два часа': 4,
 }
 CONST1 = {
-1: 'Полчаса',
+    1: 'Полчаса',
     2: 'Час',
     3: 'Полтора часа',
     4: 'Два часа',
 }
 
 
-def funkstyle(r, g, b):
+def RGB(r, g, b):
     return f'''
     background-color:rgb({r}, {g}, {b})
 '''
+
+
+# шпаргалка
+# mod = {
+# 'column'= ["=", "'", change, "'"] => "column='{}'".format(change)
+# }
+def getInfoFromDB(neededInfo, fromTable, mods=None, fetch='all', sumb='AND'):
+    db = sqlite3.connect('../data/seances.db')
+    cursor = db.cursor()
+    result = [neededInfo, fromTable]
+    query = ''' SELECT {} FROM {}'''
+    if mods:
+        query += ' WHERE '
+        for i in list(mods.keys()):
+            if len(mods[i]) == 4:
+                result.append(i)
+                result += mods[i]
+                query += '{}{}{}{}{} '
+            else:
+                result.append(i)
+                result += mods[i]
+                query += '{}{}{} '
+            if sumb == 'AND':
+                query += 'AND '
+            else:
+                query += 'OR '
+        query = query[0:-4]
+    if fetch == 'all':
+        Info = cursor.execute(query.format(*result)).fetchall()
+    else:
+        Info = cursor.execute(query.format(*result)).fetchone()
+        db.close()
+    return Info
+
+
+def addInfoFromDB(table, columns, neededInfo):
+    db = sqlite3.connect('../data/seances.db')
+    cursor = db.cursor()
+    query = f''' INSERT INTO {table} ({', '.join(columns)}) VALUES({str(neededInfo)[1:-1]}) '''
+    cursor.execute(query)
+    db.commit()
+    db.close()
+
+
+def updateInfoFromDB(table, columns, neededInfo, mods=None):
+    db = sqlite3.connect('../data/seances.db')
+    cursor = db.cursor()
+
+    result = []
+    dopquery = ""
+    if mods:
+        dopquery += " WHERE "
+        for i in list(mods.keys()):
+            if len(mods[i]) == 4:
+                result.append(i)
+                result += mods[i]
+                dopquery += "{}{}{}{}{}"
+            else:
+                result.append(i)
+                result += mods[i]
+                dopquery += "{}{}{}"
+            dopquery += " AND "
+        dopquery = dopquery[0:-4]
+
+    strform = """ UPDATE {} SET {}='{}' """ + dopquery
+    intform = " UPDATE {} SET {}={} " + dopquery
+    for i in range(len(columns)):
+        changedInfo = [table, columns[i], neededInfo[i]]
+        receivedList = changedInfo + result
+        if type(neededInfo[i]) == 'int':
+            cursor.execute(intform.format(*receivedList))
+        else:
+            cursor.execute(strform.format(*receivedList))
+        db.commit()
+    db.close()
+

@@ -11,8 +11,6 @@ class PersonCard(QWidget):
         self.setFixedSize(950, 950)
         uic.loadUi('../activities/personCardWindow.ui', self)
         self.setWindowTitle(f'карточка пациента')
-        self.db = sqlite3.connect('../data/seances.db')
-        self.cursor = self.db.cursor()
         self.Activated = False
         self.patients_ID = p_id
         self.redactor_rbtn.setChecked(False)
@@ -47,9 +45,8 @@ class PersonCard(QWidget):
             self.file = open(f'../data/patients/ID{self.patients_ID[0]}.txt', 'r', encoding='utf-8')
         info = self.file.readlines()
         # ФИО, дата рождения, ФИО Родителей, адрес, номер телефона, свидетельство о рождении, свидетельства
-        query = f''' SELECT money FROM patients
-                                         WHERE patients_id={self.patients_ID[0]} '''
-        self.moneyOnProfile.setText(str(self.cursor.execute(query).fetchone()[0]))
+        self.moneyOnProfile.setText(
+            str(getInfoFromDB('money', 'patients', {'patients_id': ['=', self.patients_ID[0]]}, 'one')[0]))
         try:
             self.ledit_FIO.setText(info[0])
             self.birthday_ledit.setText(info[1])
@@ -82,10 +79,8 @@ class PersonCard(QWidget):
                       self.sectionPoz.text().strip(),
                       self.whereGot.toPlainText().strip()]
         self.file.write('\n'.join(savingFile))
-        query = f''' UPDATE patients SET money = {int(self.moneyOnProfile.text())}
-                             WHERE patients_id={self.patients_ID[0]}'''
-        self.cursor.execute(query)
-        self.db.commit()
+        updateInfoFromDB('patients', ['money'], [int(self.moneyOnProfile.text())],
+                         {'patients_id': ['=', self.patients_ID[0]]})
 
     def LastSeances(self):
         self.seance = LastSeances(self.patients_ID)
