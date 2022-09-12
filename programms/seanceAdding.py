@@ -6,7 +6,7 @@ from dialogPayment import Payment
 
 
 class CreateSeance(QWidget):
-    def __init__(self, changing=False, *args):
+    def __init__(self, function, changing=False, *args):
         super().__init__()
 
         self.setGeometry(X_KORD, Y_KORD, 800, 700)
@@ -17,6 +17,7 @@ class CreateSeance(QWidget):
         self.date.clicked.connect(self.calendarChanged)
 
         self.AllDates = []
+        self.resetInfoInWeek = function
 
         self.ledit_doctors.setReadOnly(True)
         self.ledit_patients.setReadOnly(True)
@@ -98,6 +99,7 @@ class CreateSeance(QWidget):
                                   int(self.doc_id), str(self.ledit_seance.text()), int(self.cost.text()),
                                   int(self.present.text()), CONST[self.timedelta.currentText()],
                                   ','.join([str(i) for i in attendance])], {"seance_id": ["=", self.seanceId]})
+                self.resetInfoInWeek()
                 self.close()
             else:
                 QMessageBox.critical(self, "Ошибка", "Данные введены неправильно", QMessageBox.Ok)
@@ -242,4 +244,22 @@ class CreateSeance(QWidget):
             self.paying.exec_()
 
     def DeleteClicked(self):
-        confirm = QDialog()
+        confirm = QMessageBox()
+        confirm.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        confirm.setWindowTitle('Удаление')
+        confirm.setText("Удалить сеанс?")
+        result = confirm.exec_()
+        if QMessageBox.Yes == result:
+            print("yes")
+            cost = sum([int(i) for i in
+                        getInfoFromDB('attendance', 'seance', {'seance_id': ['=', self.seanceId]}, 'one')[
+                            0].split(
+                            ',')])
+            patientMoney = getInfoFromDB('money', 'patients', {'patients_id': ['=', self.pat_id]}, 'one')
+            newMoney = cost + patientMoney[0]
+            updateInfoFromDB('patients', ['money'], [newMoney], {'patients_id': ['=', self.pat_id]})
+            deleteInfoFromDB('seance', {'seance_id': ['=', self.seanceId]})
+            self.resetInfoInWeek()
+            self.close()
+        elif QMessageBox.No == result:
+            print("no")

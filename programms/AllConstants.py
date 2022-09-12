@@ -146,3 +146,28 @@ def updateInfoFromDB(table, columns, neededInfo, mods=None):
         db.commit()
     db.close()
 
+
+def deleteInfoFromDB(table, mods=None):
+    db = sqlite3.connect('../data/seances.db')
+    cursor = db.cursor()
+
+    query = ''' DELETE FROM {} '''
+    result = [table]
+    dopquery = ""
+    if mods:
+        dopquery += " WHERE "
+        for i in list(mods.keys()):
+            if len(mods[i]) == 4:
+                result.append(i)
+                result += mods[i]
+                dopquery += "{}{}{}{}{}"
+            else:
+                result.append(i)
+                result += mods[i]
+                dopquery += "{}{}{}"
+            dopquery += " AND "
+        dopquery = dopquery[0:-4]
+    query += dopquery
+    cursor.execute(query.format(*result))
+    db.commit()
+    db.close()

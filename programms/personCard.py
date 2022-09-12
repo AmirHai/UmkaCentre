@@ -79,6 +79,7 @@ class PersonCard(QWidget):
                       self.sectionPoz.text().strip(),
                       self.whereGot.toPlainText().strip()]
         self.file.write('\n'.join(savingFile))
+        self.file.close()
         updateInfoFromDB('patients', ['money'], [int(self.moneyOnProfile.text())],
                          {'patients_id': ['=', self.patients_ID[0]]})
 
